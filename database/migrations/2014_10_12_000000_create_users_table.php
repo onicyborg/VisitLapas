@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password', 255);
             $table->string('phone', 30)->nullable();
             $table->boolean('is_active')->default(true);
+            $table->rememberToken();
             $table->timestampTz('last_login_at')->nullable();
             $table->timestampsTz();
         });

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.master');
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.attempt');
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/', function () {
+        return view('welcome');
+    })->name('dashboard');
+
+    Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
+    Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::post('/profile/photo', [AuthController::class, 'updateProfilePhoto'])->name('profile.photo');
+    Route::post('/profile/change-password', [AuthController::class, 'changePassword'])->name('profile.change_password');
+
+    Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 });
