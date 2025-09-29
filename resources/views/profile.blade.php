@@ -101,6 +101,13 @@
                             <div class="invalid-feedback" data-field="full_name"></div>
                         </div>
                         <div class="mb-6">
+                            <label class="form-label">Posisi</label>
+                            <input type="text" class="form-control" id="position" name="position"
+                                value="{{ $user->profile->position }}"
+                                placeholder="Posisi">
+                            <div class="invalid-feedback" data-field="position"></div>
+                        </div>
+                        <div class="mb-6">
                             <label class="form-label">Alamat Email</label>
                             <input type="email" class="form-control" id="email" name="email"
                                 value="{{ $user->email }}" placeholder="Alamat email">

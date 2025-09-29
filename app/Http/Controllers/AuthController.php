@@ -59,12 +59,16 @@ class AuthController extends Controller
         $validated = $request->validate([
             'full_name' => ['nullable','string','max:255'],
             'email' => ['required','email','max:255','unique:users,email,' . $user->id . ',id'],
+            'position' => ['nullable','string','max:80'],
         ]);
 
         // Update or create profile row
         $profile = $user->profile()->firstOrCreate(['user_id' => $user->id]);
         if (array_key_exists('full_name', $validated)) {
             $user->name = $validated['full_name'];
+        }
+        if (array_key_exists('position', $validated)) {
+            $profile->position = $validated['position'];
         }
         $profile->save();
 

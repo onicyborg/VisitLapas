@@ -15,11 +15,10 @@ class UserProfile extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'user_id', 'avatar_url', 'position', 'preferences',
+        'user_id', 'avatar_url', 'position',
     ];
 
     protected $casts = [
-        'preferences' => 'array',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
