@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('cell_block', 50)->nullable();
             $table->enum('status', ['active','transferred','released'])->default('active');
             $table->text('notes')->nullable();
+            $table->text('photo_url')->nullable();
             $table->timestampsTz();
         });
     }

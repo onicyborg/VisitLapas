@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InmatesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
+    // Inmates Management
+    Route::get('/inmates', [InmatesController::class, 'index'])->name('inmates.index');
+    Route::get('/inmates/{id}', [InmatesController::class, 'show'])->name('inmates.show');
+    Route::post('/inmates', [InmatesController::class, 'store'])->name('inmates.store');
+    Route::put('/inmates/{id}', [InmatesController::class, 'update'])->name('inmates.update');
+    Route::delete('/inmates/{id}', [InmatesController::class, 'destroy'])->name('inmates.destroy');
 
     Route::get('/profile', [AuthController::class, 'profile'])->name('profile');
     Route::put('/profile', [AuthController::class, 'updateProfile'])->name('profile.update');

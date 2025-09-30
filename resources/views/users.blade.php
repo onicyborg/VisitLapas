@@ -48,6 +48,7 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Telepon</th>
+                            <th>Terakhir Login</th>
                             <th>Status</th>
                             <th style="width: 160px">Aksi</th>
                         </tr>
@@ -59,12 +60,24 @@
                                     @php
                                         $avatar = optional($u->profile)->avatar_url;
                                         $fallback = 'https://ui-avatars.com/api/?name=' . urlencode($u->name) . '&background=4e73df&color=fff&size=64';
+                                        $fallbackFull = 'https://ui-avatars.com/api/?name=' . urlencode($u->name) . '&background=4e73df&color=fff&size=512';
                                     @endphp
-                                    <img src="{{ $avatar ?: $fallback }}" alt="{{ $u->name }}" width="40" height="40" style="object-fit: cover; border-radius: 50%;" />
+                                    <a href="#" class="avatar-view" data-full="{{ $avatar ?: $fallbackFull }}" title="Lihat foto">
+                                        <img src="{{ $avatar ?: $fallback }}" alt="{{ $u->name }}" width="40" height="40" style="object-fit: cover; border-radius: 50%;" />
+                                    </a>
                                 </td>
                                 <td class="full_name">{{ $u->name }}</td>
                                 <td class="email">{{ $u->email }}</td>
                                 <td class="phone">{{ $u->phone ?? '-' }}</td>
+                                <td class="last_login">
+                                    @if ($u->last_login_at)
+                                        <span title="{{ \Carbon\Carbon::parse($u->last_login_at)->toDayDateTimeString() }}">
+                                            {{ \Carbon\Carbon::parse($u->last_login_at)->diffForHumans() }}
+                                        </span>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td class="status">
                                     @if ($u->is_active ?? true)
                                         <span class="badge bg-success">Aktif</span>
@@ -88,6 +101,24 @@
         </div>
     </div>
 
+    <!-- Modal Preview Avatar -->
+    <div class="modal fade" id="avatarPreviewModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pratinjau Foto</h5>
+                    <button type="button" class="btn btn-sm btn-icon btn-active-light-primary" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <i class="bi bi-x-lg fs-2x"></i>
+                    </button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center p-0">
+                    <img id="avatarPreviewImg" src="" alt="Avatar" style="max-width: 100%; max-height: 80vh; object-fit: contain;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="userModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -96,7 +127,7 @@
                         <h5 class="modal-title" id="userModalTitle">Tambah Pengguna</h5>
                         <button type="button" class="btn btn-sm btn-icon btn-active-light-primary" data-bs-dismiss="modal"
                             aria-label="Close">
-                            <i class="ki-duotone ki-cross fs-2x"></i>
+                            <i class="bi bi-x-lg fs-2x"></i>
                         </button>
                     </div>
                     <div class="modal-body">
@@ -222,6 +253,19 @@
             lengthChange: false,
             ordering: true,
             searching: true
+        });
+
+        // Preview avatar fullscreen
+        document.addEventListener('click', function(e) {
+            const a = e.target.closest('a.avatar-view');
+            if (!a) return;
+            e.preventDefault();
+            const fullUrl = a.getAttribute('data-full');
+            const img = document.getElementById('avatarPreviewImg');
+            if (img) img.src = fullUrl || '';
+            const modalEl = document.getElementById('avatarPreviewModal');
+            const modal = new bootstrap.Modal(modalEl);
+            modal.show();
         });
 
         // Pencarian keyword

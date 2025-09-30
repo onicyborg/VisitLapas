@@ -36,8 +36,21 @@ class AuthController extends Controller
 
         $remember = $request->boolean('remember');
 
+        // Tolak jika akun non-aktif
+        $existing = \App\Models\User::where('email', $credentials['email'])->first();
+        if ($existing && !$existing->is_active) {
+            return back()
+                ->withInput($request->only('email', 'remember'))
+                ->with('error', 'Akun Anda nonaktif. Hubungi administrator.');
+        }
+
+        // Pastikan hanya user aktif yang bisa login
+        $credentials['is_active'] = true;
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
+            $user = Auth::user();
+            $user->last_login_at = now();
+            $user->save();
             return redirect()->intended(route('dashboard'));
         }
 
@@ -57,13 +70,13 @@ class AuthController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            'full_name' => ['nullable','string','max:255'],
-            'email' => ['required','email','max:255','unique:users,email,' . $user->id . ',id'],
-            'position' => ['nullable','string','max:80'],
+            'full_name' => ['nullable', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id . ',id'],
+            'position' => ['nullable', 'string', 'max:80'],
         ]);
 
         // Update or create profile row
-        $profile = $user->profile()->firstOrCreate(['user_id' => $user->id]);
+        $profile = $user->profile->firstOrCreate(['user_id' => $user->id]);
         if (array_key_exists('full_name', $validated)) {
             $user->name = $validated['full_name'];
         }
@@ -90,7 +103,7 @@ class AuthController extends Controller
             $user = Auth::user();
 
             $request->validate([
-                'photo' => ['required','image','mimes:jpg,jpeg,png,webp','max:2048'],
+                'photo' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             ]);
 
             $profile = $user->profile()->firstOrCreate(['user_id' => $user->id]);
@@ -138,8 +151,8 @@ class AuthController extends Controller
         $user = Auth::user();
 
         $validated = $request->validate([
-            'old_password' => ['required','string'],
-            'new_password' => ['required','string','min:8','confirmed'],
+            'old_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
         if (!Hash::check($validated['old_password'], $user->password)) {
