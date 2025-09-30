@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('page_title', 'Users')
+
 @push('styles')
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <style>
@@ -25,7 +27,6 @@
 @section('content')
     <div class="card m-6">
         <div class="card-header flex-wrap d-flex align-items-center gap-2">
-            <h3 class="card-title mb-0 me-4">Daftar Pengguna</h3>
             <div class="d-flex align-items-center gap-2 flex-wrap my-2">
                 <div class="input-group input-group-sm">
                     <span class="input-group-text"><i class="bi bi-search"></i></span>

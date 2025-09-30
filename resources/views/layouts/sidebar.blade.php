@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="menu-item">
-                    <a class="menu-link" href="{{ url('/display/settings') }}">
+                    <a class="menu-link" href="{{ url('/display') }}" target="_blank">
                         <span class="menu-icon">
                             <i class="ki-duotone ki-color-swatch fs-2">
                                 <span class="path1"></span>
@@ -101,7 +101,7 @@
                                 <span class="path10"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Display Settings</span>
+                        <span class="menu-title">Display</span>
                     </a>
                 </div>
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('visit_queue', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->date('visit_date');
-            $table->integer('ticket_number');
+            $table->string('ticket_number');
 
             $table->uuid('visitor_id');
             $table->uuid('inmate_id');

@@ -103,7 +103,7 @@
                         <div class="mb-6">
                             <label class="form-label">Posisi</label>
                             <input type="text" class="form-control" id="position" name="position"
-                                value="{{ $user->profile->position }}"
+                                value="{{ old('position', data_get($user, 'profile.position', '')) }}"
                                 placeholder="Posisi">
                             <div class="invalid-feedback" data-field="position"></div>
                         </div>

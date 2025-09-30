@@ -73,6 +73,10 @@
                     <!--begin::Header wrapper-->
                     <div class="d-flex align-items-stretch justify-content-between flex-lg-grow-1"
                         id="kt_app_header_wrapper">
+                        <!--begin::Page title (left) -->
+                        <div class="d-flex align-items-center">
+                            <h3 class="mb-0 fw-semibold">@yield('page_title')</h3>
+                        </div>
                         <!--begin::Menu wrapper-->
                         <!-- Header navigation removed: we only use the left sidebar -->
                         <!--end::Menu wrapper-->
