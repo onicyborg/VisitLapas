@@ -60,7 +60,6 @@ const routes = {
   data: '{{ route('reports.data') }}',
   export: '{{ route('reports.export') }}'
 };
-
 let dt = $('#reportsTable').DataTable({
   processing: true,
   serverSide: true,
@@ -82,7 +81,15 @@ let dt = $('#reportsTable').DataTable({
     { data: 'inmate', name: 'inmate' },
     { data: 'status', name: 'status' },
     { data: 'counter', name: 'counter' },
-    { data: 'priority', name: 'priority' },
+    { data: 'priority', name: 'priority', render: function(data){
+      if (data === null || data === undefined) return '';
+      const s = String(data).toLowerCase();
+      if (['regular','priority','vip'].includes(s)) return s;
+      const n = parseInt(data, 10);
+      const map01 = {0: 'regular', 1: 'priority', 2: 'vip'}; // 0-based
+      const map12 = {1: 'regular', 2: 'priority', 3: 'vip'}; // 1-based
+      return map01[n] || map12[n] || s;
+    } },
     { data: 'times', name: 'times' },
   ],
   createdRow: function(row, data){},
@@ -107,5 +114,3 @@ function buildExportUrl(){
 document.getElementById('btnExport').addEventListener('click', function(){
   window.location.href = buildExportUrl();
 });
-</script>
-@endpush
