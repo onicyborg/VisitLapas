@@ -70,6 +70,10 @@ class VisitReportExport implements FromQuery, WithHeadings, WithMapping, ShouldA
 
     public function map($r): array
     {
+        $priorityInt = (int)$r->priority;
+        $priorityMap = [0 => 'Reguler', 1 => 'Priority', 2 => 'VIP'];
+        $priorityLabel = $priorityMap[$priorityInt] ?? 'Reguler';
+
         return [
             Carbon::parse($r->visit_date)->format('Y-m-d'),
             (string)$r->ticket_number,
@@ -77,7 +81,7 @@ class VisitReportExport implements FromQuery, WithHeadings, WithMapping, ShouldA
             (string)$r->inmate_name,
             ucfirst(str_replace('_',' ', (string)$r->status)),
             (string)$r->counter_code,
-            (int)$r->priority,
+            $priorityLabel,
             $r->called_at ? Carbon::parse($r->called_at)->format('Y-m-d H:i:s') : '',
             $r->started_at ? Carbon::parse($r->started_at)->format('Y-m-d H:i:s') : '',
             $r->ended_at ? Carbon::parse($r->ended_at)->format('Y-m-d H:i:s') : '',
