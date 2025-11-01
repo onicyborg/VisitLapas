@@ -64,7 +64,7 @@
         <div class="display-header mb-4">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center gap-3">
-                    <img src="{{ asset('assets/media/logos/logo-with-text.png') }}" alt="VisitLapas" style="height:56px;" />
+                    <img src="{{ asset('assets/media/logos/logo_with_text.jpg') }}" alt="VisitLapas" style="height:56px;" />
                     <div class="text-muted">|</div>
                     <div class="display-date" id="displayDate"></div>
                     <span id="connDot" class="conn-indicator conn-ok" title="Connected"></span>
