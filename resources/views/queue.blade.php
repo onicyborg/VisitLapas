@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page_title', 'Queues')
+@section('page_title', 'Antrian')
 
 @push('styles')
 <style>

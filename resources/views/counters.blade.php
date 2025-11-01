@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page_title', 'Counters')
+@section('page_title', 'Loket')
 
 @push('styles')
     <style>

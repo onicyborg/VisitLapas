@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page_title', 'Visitors')
+@section('page_title', 'Pengunjung')
 
 @push('styles')
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('page_title', 'Reports')
+@section('page_title', 'Laporan')
 
 @push('styles')
     <style>
