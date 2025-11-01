@@ -36,6 +36,7 @@
                             <th>Foto</th>
                             <th>No. Register</th>
                             <th>Nama</th>
+                            <th>NIK</th>
                             <th>Jenis Kelamin</th>
                             <th>Blok Sel</th>
                             <th>Status</th>
@@ -57,6 +58,7 @@
                                 </td>
                                 <td class="register_no">{{ $i->register_no }}</td>
                                 <td class="name">{{ $i->name }}</td>
+                                <td class="nik">{{ $i->nik }}</td>
                                 <td class="gender text-capitalize">{{ $i->gender }}</td>
                                 <td class="cell_block">{{ $i->cell_block ?? '-' }}</td>
                                 <td class="status text-capitalize">{{ $i->status }}</td>
@@ -145,6 +147,11 @@
                             </div>
                         </div>
 
+                        <div class="mb-5">
+                            <label class="form-label">NIK</label>
+                            <input type="text" name="nik" id="nik" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" pattern="[0-9]*" title="Isikan hanya dengan angka">
+                            <div class="invalid-feedback" data-field="nik"></div>
+                        </div>
                         <div class="row">
                             <div class="col-md-6 mb-5">
                                 <label class="form-label">Jenis Kelamin</label>
@@ -170,7 +177,6 @@
                             <label class="form-label">Status</label>
                             <select name="status" id="status" class="form-select">
                                 <option value="active">active</option>
-                                <option value="transferred">transferred</option>
                                 <option value="released">released</option>
                             </select>
                             <div class="invalid-feedback" data-field="status"></div>
@@ -210,6 +216,7 @@
         const inmateId = document.getElementById('inmate_id');
         const registerNo = document.getElementById('register_no');
         const nameInput = document.getElementById('name');
+        const nikInput = document.getElementById('nik');
         const gender = document.getElementById('gender');
         const cellBlock = document.getElementById('cell_block');
         const birthDate = document.getElementById('birth_date');
@@ -284,6 +291,7 @@
                     cellBlock.value = d.cell_block || '';
                     // HTML input type="date" butuh format YYYY-MM-DD
                     birthDate.value = d.birth_date ? String(d.birth_date).slice(0, 10) : '';
+                    nikInput.value = d.nik || '';
                     statusSelect.value = d.status || 'active';
                     notes.value = d.notes || '';
                     const imgUrl = d.photo_url || `{{ asset('assets/media/avatars/blank.png') }}`;
@@ -312,6 +320,7 @@
             formData.append('gender', gender.value);
             formData.append('cell_block', cellBlock.value);
             if (birthDate.value) formData.append('birth_date', birthDate.value);
+            formData.append('nik', nikInput.value);
             formData.append('status', statusSelect.value);
             formData.append('notes', notes.value);
             if (photoInput.files && photoInput.files[0]) {

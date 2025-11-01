@@ -65,7 +65,6 @@
                             <th>Date</th>
                             <th>Visitor</th>
                             <th>Inmate</th>
-                            <th>Priority</th>
                             <th>Status</th>
                             <th>Counter</th>
                             <th>Times</th>
@@ -117,15 +116,6 @@
                         </select>
                         <div class="invalid-feedback" data-field="inmate_id"></div>
                     </div>
-                    <div class="mb-4">
-                        <label class="form-label">Priority</label>
-                        <select id="c_priority" class="form-select">
-                            <option value="0" selected>Regular</option>
-                            <option value="1">Priority</option>
-                            <option value="2">VIP</option>
-                        </select>
-                        <div class="invalid-feedback" data-field="priority"></div>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button>
@@ -168,15 +158,6 @@
                             @endforeach
                         </select>
                         <div class="invalid-feedback" data-field="inmate_id"></div>
-                    </div>
-                    <div class="mb-4">
-                        <label class="form-label">Priority</label>
-                        <select id="e_priority" class="form-select">
-                            <option value="0" selected>Regular</option>
-                            <option value="1">Priority</option>
-                            <option value="2">VIP</option>
-                        </select>
-                        <div class="invalid-feedback" data-field="priority"></div>
                     </div>
                     <div class="mb-4">
                         <label class="form-label">Notes</label>
@@ -294,7 +275,6 @@ let dt = $('#queuesTable').DataTable({
         { data: 'date', name: 'date' },
         { data: 'visitor', name: 'visitor', orderable: false },
         { data: 'inmate', name: 'inmate', orderable: false },
-        { data: 'priority', name: 'priority' },
         { data: 'status', name: 'status', orderable: false },
         { data: 'counter', name: 'counter', orderable: false },
         { data: 'times', name: 'times', orderable: false },
@@ -325,7 +305,6 @@ createForm.addEventListener('submit', function(e){
     fd.append('visit_date', document.getElementById('c_visit_date').value);
     fd.append('visitor_id', document.getElementById('c_visitor_id').value);
     fd.append('inmate_id', document.getElementById('c_inmate_id').value);
-    fd.append('priority', document.getElementById('c_priority').value || '0');
     fetch(routes.store, { method:'POST', headers:{'X-CSRF-TOKEN': CSRF_TOKEN}, body: fd })
     .then(r=>r.json().then(d=>({ok:r.ok, d}))).then(({ok,d})=>{
         if(!ok){return handleErrors(createForm,d);}
@@ -345,7 +324,6 @@ editForm.addEventListener('submit', function(e){
     fd.append('_method','PUT');
     fd.append('visitor_id', document.getElementById('e_visitor_id').value);
     fd.append('inmate_id', document.getElementById('e_inmate_id').value);
-    fd.append('priority', document.getElementById('e_priority').value || '0');
     fd.append('notes', document.getElementById('e_notes').value || '');
     fetch(routes.update(id), { method:'POST', headers:{'X-CSRF-TOKEN': CSRF_TOKEN}, body: fd })
     .then(r=>r.json().then(d=>({ok:r.ok, d}))).then(({ok,d})=>{
@@ -393,10 +371,8 @@ document.querySelector('#queuesTable tbody').addEventListener('click', function(
         // Prefill selects using data attributes from the row when available
         const vId = tr.getAttribute('data-visitor-id');
         const iId = tr.getAttribute('data-inmate-id');
-        const pr = tr.getAttribute('data-priority');
         if (vId) document.getElementById('e_visitor_id').value = vId;
         if (iId) document.getElementById('e_inmate_id').value = iId;
-        if (pr !== null) document.getElementById('e_priority').value = pr;
         editModal.show();
         return;
     }

@@ -238,10 +238,10 @@
                 if ('speechSynthesis' in window && voiceEnabled){
                     const newKeys = new Set();
                     (json.current || []).forEach(it => {
-                        const key = `${it.ticket_number}|${it.counter_code}|${it.status}`;
+                        const key = `${it.ticket_number}|${it.counter_code}|${it.status}|${it.called_at||''}`;
                         newKeys.add(key);
                         if (!lastAnnouncedKeys.has(key) && it.status === 'called'){
-                            speak(`Nomor antrian ${it.ticket_number}, menuju ${it.counter_code}.`);
+                            speak(`Nomor antrian ${it.ticket_number} atas nama ${it.visitor}, menuju loket nomor ${it.counter_code}.`);
                         }
                     });
                     lastAnnouncedKeys = newKeys;

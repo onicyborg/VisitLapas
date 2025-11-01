@@ -43,7 +43,7 @@
                                 <span class="path3"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Inmates</span>
+                        <span class="menu-title">Narapidana</span>
                     </a>
                 </div>
 
@@ -55,7 +55,7 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Visitors</span>
+                        <span class="menu-title">Pengunjung</span>
                     </a>
                 </div>
 
@@ -67,7 +67,7 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Counters</span>
+                        <span class="menu-title">Loket</span>
                     </a>
                 </div>
 
@@ -81,7 +81,7 @@
                                 <span class="path4"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Queues</span>
+                        <span class="menu-title">Antrian</span>
                     </a>
                 </div>
 
@@ -113,7 +113,7 @@
                                 <span class="path2"></span>
                             </i>
                         </span>
-                        <span class="menu-title">Reports</span>
+                        <span class="menu-title">Laporan</span>
                     </a>
                 </div>
                 <!--end:Menu item-->

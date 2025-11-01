@@ -46,7 +46,6 @@ class QueueController extends Controller
             $recordsFiltered = (clone $base)->count();
 
             $base->orderByRaw("CASE WHEN status IN ('waiting','called','serving') THEN 0 ELSE 1 END ASC")
-                 ->orderBy('priority', 'DESC')
                  ->orderBy('created_at', 'ASC');
 
             $start = intval($request->input('start', 0));
@@ -85,17 +84,10 @@ class QueueController extends Controller
                     $actions .= '<button class="btn btn-sm btn-light-danger btn-icon btn-cancel" data-bs-toggle="tooltip" title="Cancel"><i class="bi bi-x-circle"></i></button>';
                 }
                 $actions .= '</div>';
-
-                $priorityLabel = match((int)$qrow->priority){
-                    2 => 'VIP',
-                    1 => 'Priority',
-                    default => 'Regular',
-                };
                 return [
                     'DT_RowAttr' => [
                         'data-id' => $qrow->id,
                         'data-status' => $qrow->status,
-                        'data-priority' => (string) $qrow->priority,
                         'data-visitor-id' => $qrow->visitor_id,
                         'data-inmate-id' => $qrow->inmate_id,
                         'data-counter-id' => $qrow->counter_id,
@@ -104,7 +96,6 @@ class QueueController extends Controller
                     'date' => e($qrow->visit_date->format('Y-m-d')),
                     'visitor' => e($qrow->visitor->name ?? '-'),
                     'inmate' => e($qrow->inmate->name ?? '-'),
-                    'priority' => e($priorityLabel),
                     'status' => $statusBadge,
                     'counter' => e($qrow->counter->code ?? '-'),
                     'times' => '<div class="text-muted small">'
@@ -150,7 +141,6 @@ class QueueController extends Controller
             'visit_date' => ['required','date'],
             'visitor_id' => ['required','uuid','exists:visitors,id'],
             'inmate_id' => ['required','uuid','exists:inmates,id'],
-            'priority' => ['nullable','integer','min:0'],
         ]);
         if ($validator->fails()) {
             return response()->json(['message' => 'Validation error','errors' => $validator->errors()], 422);

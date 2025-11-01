@@ -59,7 +59,9 @@ class DisplayController extends Controller
             return [
                 'counter_code' => (string) ($q->counter->code ?? '-'),
                 'ticket_number' => (string) $q->ticket_number,
+                'visitor' => (string) ($q->visitor->name ?? '-'),
                 'status' => (string) $q->status,
+                'called_at' => optional($q->called_at)->toIso8601String(),
                 'since' => optional($q->called_at)->format('H:i') ?? '-',
             ];
         })->values();

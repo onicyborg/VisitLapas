@@ -37,6 +37,7 @@ class InmatesController extends Controller
         $validator = Validator::make($request->all(), [
             'register_no' => 'required|string|max:50|unique:inmates,register_no',
             'name' => 'required|string|max:150',
+            'nik' => 'required|string|max:50|unique:inmates,nik',
             'gender' => 'required|in:male,female,other',
             'birth_date' => 'nullable|date',
             'cell_block' => 'nullable|string|max:50',
@@ -58,6 +59,7 @@ class InmatesController extends Controller
         $inmate->id = (string) Str::uuid();
         $inmate->register_no = $data['register_no'];
         $inmate->name = $data['name'];
+        $inmate->nik = $data['nik'];
         $inmate->gender = $data['gender'];
         $inmate->birth_date = $data['birth_date'] ?? null;
         $inmate->cell_block = $data['cell_block'] ?? null;
@@ -85,6 +87,7 @@ class InmatesController extends Controller
         $validator = Validator::make($request->all(), [
             'register_no' => 'required|string|max:50|unique:inmates,register_no,' . $inmate->id . ',id',
             'name' => 'required|string|max:150',
+            'nik' => 'required|string|max:50|unique:inmates,nik,' . $inmate->id . ',id',
             'gender' => 'required|in:male,female,other',
             'birth_date' => 'nullable|date',
             'cell_block' => 'nullable|string|max:50',
@@ -104,6 +107,7 @@ class InmatesController extends Controller
 
         $inmate->register_no = $data['register_no'];
         $inmate->name = $data['name'];
+        $inmate->nik = $data['nik'];
         $inmate->gender = $data['gender'];
         $inmate->birth_date = $data['birth_date'] ?? null;
         $inmate->cell_block = $data['cell_block'] ?? null;

@@ -15,7 +15,7 @@ class Inmates extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'id', 'register_no', 'name', 'gender', 'birth_date', 'cell_block', 'status', 'notes',
+        'id', 'register_no', 'name', 'gender', 'birth_date', 'cell_block', 'status', 'notes', 'nik', 'photo_url',
     ];
 
     protected $casts = [
